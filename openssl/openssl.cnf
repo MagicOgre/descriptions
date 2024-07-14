@@ -52,7 +52,8 @@ commonName              = supplied
 emailAddress            = optional
 
 [ req ]
-# Options for the `req` tool (`man req`).
+# Options for the `req` tool (`man req`). 
+#DH key size
 default_bits        = 2048
 distinguished_name  = req_distinguished_name
 string_mask         = utf8only
