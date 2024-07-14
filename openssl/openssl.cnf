@@ -12,8 +12,8 @@ serial            = $dir/serial
 RANDFILE          = $dir/private/.rand
 
 # The root key and root certificate.
-private_key	  = $dir/private/intermediate.key
-certificate	  = $dir/certs/intermediate.crt
+private_key	  = $dir/private/rootca.key
+certificate	  = $dir/certs/rootca.crt
 
 # For certificate revocation lists.
 crlnumber         = $dir/crlnumber
@@ -70,15 +70,15 @@ x509_extensions     = v3_intermediate_ca
 countryName                     = Country Name (2 letter code)
 stateOrProvinceName             = State or Province Name
 0.organizationName              = Organization Name
-commonName                      = ldap1.bsmt1.lan
+commonName                      = Common Name
 emailAddress                    = Email Address
 
 # Optionally, specify some defaults.
-countryName_default             = HU
-stateOrProvinceName_default     = Hungary
-0.organizationName_default	= BSMT Project v1
-#organizationalUnitName_default =
-commonName_default              = ldap1.bsmt1.lan
+countryName_default             = defautl US
+stateOrProvinceName_default     = default California
+0.organizationName_default	= default Company
+#organizationalUnitName_default = default IT Department
+commonName_default              = default.example.com
 
 [ v3_ca ]
 # Extensions for a typical CA (`man x509v3_config`).
