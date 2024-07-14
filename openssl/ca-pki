@@ -1,1 +1,17 @@
+Create the direcotry structure:
+mkdir /root/ca
+cd /root/ca
+mkdir certs crl newcerts private csr cnf
+chmod 700 private
+touch index.txt
+echo 1000 > serial
 
+
+Generate a serial number for keeping track of certs:
+openssl rand -hex 16 > serial
+
+Generate root ca private key:
+openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:prime256v1 -aes256 -out private/ca.key
+
+Generate root ca:
+openssl req -config openssl.cnf -key private/rootca.key -new -x509 -days 7300 -sha256 -extensions v3_ca -out certs/rootca.crt
