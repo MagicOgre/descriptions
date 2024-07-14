@@ -28,7 +28,7 @@ name_opt          = ca_default
 cert_opt          = ca_default
 default_days	  = 3750
 preserve          = no
-policy            = policy_loose
+policy            = policy_strict
 
 [ policy_strict ]
 # The root CA should only sign intermediate certificates that match.
@@ -62,7 +62,7 @@ string_mask         = utf8only
 default_md          = sha256
 
 # Extension to add when the -x509 option is used.
-x509_extensions     = v3_intermediate_ca
+x509_extensions     = v3_ca
 
 
 
