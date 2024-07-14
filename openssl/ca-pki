@@ -16,6 +16,9 @@ openssl rand -hex 16 > serial
 Generate root ca private key:
 openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:prime256v1 -aes256 -out private/ca.key
 
+Set permissions to the key:
+chmod 400 private private/ca.key
+
 Generate root ca:
 openssl req -config openssl.cnf -key private/rootca.key -new -x509 -days 7300 -sha256 -extensions v3_ca -out certs/rootca.crt
 
@@ -43,5 +46,13 @@ openssl rand -hex 16 > /root/ca/intermediate/crlnumber
 Generate root ca private key:
 openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:prime256v1 -aes256 -out private/ca.key
 
+Set permissions to the key:
+chmod 400 private private/intermediate.key
 
+Edit the openssl.cnf file:
+policy            = policy_strict >>>> policy_loose
+x509_extensions   = v3_ca >>>>>> v3_intermediate_ca
+
+Generate certifiacate
+openssl req -config cnf/openssl.cnf -new -sha256 -key private/intermediate.key -out csr/intermediate.csr
 
