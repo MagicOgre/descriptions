@@ -53,6 +53,31 @@ Edit the openssl.cnf file:
 policy            = policy_strict >>>> policy_loose
 x509_extensions   = v3_ca >>>>>> v3_intermediate_ca
 
-Generate certifiacate
+Generate certifiacate signing request:
 openssl req -config cnf/openssl.cnf -new -sha256 -key private/intermediate.key -out csr/intermediate.csr
 
+Sign the request with the rootca key:
+openssl ca -config cnf/openssl.cnf -extensions v3_intermediate_ca -days 3650 -notext -md sha256 -in csr/intermediate.csr -out certs/intermediate.crt
+
+veryfy wit the root ca:
+  openssl verify -CAfile certs/ca.crt certs/intermediate.crt
+
+Combine the certificates into one chain file:
+cat certs/intermediate.crt certs/ca.crt > certs/ca-chain.pem
+
+
+SERVER CERT:
+
+create a key:
+openssl ecparam -name prime256v1 -genkey -noout -out private/test.key
+
+Create a csr:
+openssl req -config cnf/openssl.cnf -key private/test.key -new -sha256 -out csr/test.csr
+
+Edit the openssl.cnf file:
+policy            = policy_strict >>>> policy_loose
+private_key       = $dir/private/intermediate.key
+certificate       = $dir/certs/intermediate.crt
+
+Sign certificate with intermediate cert:
+openssl ca -config cnf/root.cnf -extensions server_cert -days 375 -notext -md sha256 -in csr/test.csr -out certs/test.csr
