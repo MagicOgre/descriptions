@@ -65,6 +65,9 @@ veryfy wit the root ca:
 Combine the certificates into one chain file:
 cat certs/intermediate.crt certs/ca.crt > certs/ca-chain.pem
 
+create an imprtable p7b files which contains the whole chain:
+openssl crl2pkcs7 -nocrl -certfile combined_certificates.pem -outform PEM -out certificates.p7b
+
 
 SERVER CERT:
 
