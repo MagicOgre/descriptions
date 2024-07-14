@@ -1,11 +1,14 @@
+ROOT CA
+
 Create the direcotry structure:
 mkdir /root/ca
 cd /root/ca
 mkdir certs crl newcerts private csr cnf
 chmod 700 private
 touch index.txt
-echo 1000 > serial
 
+Downloadthe openssl.cnf file from here:
+git clone https://github.com/MagicOgre/descriptions/blob/main/openssl/openssl.cnf
 
 Generate a serial number for keeping track of certs:
 openssl rand -hex 16 > serial
@@ -15,3 +18,30 @@ openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:prime256v1 -aes256 -out
 
 Generate root ca:
 openssl req -config openssl.cnf -key private/rootca.key -new -x509 -days 7300 -sha256 -extensions v3_ca -out certs/rootca.crt
+
+Verify the cert:
+openssl x509 -noout -text -in certs/rootca.crt
+
+
+
+INTERMEDIATE CA
+Switch to the other computer
+
+Create the direcotry structure:
+mkdir /root/ca/intermediate
+cd /root/ca/intermeiate
+mkdir certs crl newcerts private csr cnf
+chmod 700 private
+touch index.txt
+
+Generate a serial number for keeping track of certs:
+openssl rand -hex 16 > serial
+
+Generate a serial number for keeping track of revocation list:
+openssl rand -hex 16 > /root/ca/intermediate/crlnumber
+
+Generate root ca private key:
+openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:prime256v1 -aes256 -out private/ca.key
+
+
+
