@@ -1,11 +1,11 @@
 #!/bin/bash
 
-apt update
-apt upgrade
+apt update -y
+apt upgrade -y
 
 apt install qbittorrent-nox
 
-adduser --system --group qbittorrent-nox
+useradd -m qbittorrent-nox
 adduser qbittorrent-nox qbittorrent-nox
 
 echo "[Unit]
@@ -24,5 +24,7 @@ Restart=on-failure
 WantedBy=multi-user.target" > /etc/systemd/system/qbittorrent-nox.service
 
 systemctl daemon-reload
-systemctl start qbittorrent-nox
+systemctl start qbittorrent-nox 
 systemctl enable qbittorrent-nox
+systemctl status qbittorrent-nox
+
