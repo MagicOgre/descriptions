@@ -84,3 +84,9 @@ certificate       = $dir/certs/intermediate.crt
 
 Sign certificate with intermediate cert:
 openssl ca -config cnf/root.cnf -extensions server_cert -days 375 -notext -md sha256 -in csr/test.csr -out certs/test.csr
+
+
+
+
+
+https://jamielinux.com/docs/openssl-certificate-authority/create-the-intermediate-pair.html
