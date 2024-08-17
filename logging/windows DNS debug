@@ -1,0 +1,43 @@
+# DNS Debug Logging Enable
+function Enable-DNSDebugLogging {
+    # Set the log file path
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogFilePath" -Value "G:\LOG\ip-domain-log.txt"
+
+    # Set the maximum log file size (in bytes)
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogFileMaxSize" -Value 500000000
+
+    # Enable packet logging for incoming and outgoing packets
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogIPPackets" -Value 1
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogPackets" -Value 1
+
+    # Set the logging options for protocols, request types, etc.
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogIPProtocols" -Value 3    # 3 = UDP + TCP
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogPacketDirection" -Value 3 # 3 = Incoming + Outgoing
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogQueries" -Value 1         # Log Queries
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogResponses" -Value 1       # Log Responses
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogUpdateRequests" -Value 1  # Log Update Requests
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogNotifications" -Value 1   # Log Notifications
+
+    # Restart the DNS service to apply changes
+    Restart-Service -Name DNS
+
+    Write-Host "DNS debug logging enabled with specified settings."
+}
+
+# DNS Debug Logging Disable
+function Disable-DNSDebugLogging {
+    # Disable packet logging
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogIPPackets" -Value 0
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters" -Name "LogPackets" -Value 0
+
+    # Restart the DNS service to apply changes
+    Restart-Service -Name DNS
+
+    Write-Host "DNS debug logging disabled."
+}
+
+# Példa: DNS debug logging bekapcsolása
+Enable-DNSDebugLogging
+
+# Példa: DNS debug logging kikapcsolása
+# Disable-DNSDebugLogging
